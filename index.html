@@ -1,20 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Book Catalogue</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f0f8ff, #e6f0ff);
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 30px 0;
+      color: #2a4d8f;
+      font-size: 2em;
+    }
+
+    #books {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .book-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .book-card h3 {
+      margin: 0 0 10px;
+      color: #1e3c72;
+      font-size: 1.3em;
+    }
+
+    .book-card p {
+      margin: 5px 0;
+      font-size: 1em;
+      line-height: 1.4;
+    }
+
+    .book-card p span {
+      font-weight: bold;
+      color: #4a69bd;
+    }
+
+    iframe {
+      display: block;
+      margin: 30px auto;
+      border: 2px solid #b0c4de;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-  <h2>Book Catalogue</h2>
-  <div id="books"></div>
+  <h2>📚 Book Catalogue</h2>
+  <div id="books">Loading books...</div>
+
   <script>
     fetch('book.xml')
-     .then(response =>resoinse.text())
-     .then(xmlText => {
+      .then(response => response.text())
+      .then(xmlText => {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         const books = xmlDoc.getElementsByTagName('book');
         const output = document.getElementById('books');
+        output.innerHTML = ''; // 清空初始提示
 
         for (let book of books) {
           const title = book.getElementsByTagName('title')[0].textContent;
@@ -22,16 +87,20 @@
           const price = book.getElementsByTagName('price')[0].textContent;
 
           output.innerHTML += `
-            <div>
+            <div class="book-card">
               <h3>${title}</h3>
-              <p>Author: ${author}</p>
-              <p>Price: $${price}</p>
+              <p><span>Author:</span> ${author}</p>
+              <p><span>Price:</span> $${price}</p>
             </div>
-            <hr>
           `;
         }
+      })
+      .catch(error => {
+        document.getElementById('books').innerHTML = '<p style="text-align:center;color:red;">Failed to load book data.</p>';
+        console.error(error);
       });
   </script>
+
   <iframe src="book.xml" width="600" height="300"></iframe>
 </body>
 </html>
