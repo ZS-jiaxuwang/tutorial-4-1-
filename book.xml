@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<catalogue>
+  <book id="b101">
+    <title>XML Fundamentals</title>
+    <author>John Smith</author>
+    <price >39.99</price>
+  </book>
+
+  <book id="b102">
+    <title>Learning Java</title>
+    <author>Mary Brown</author>
+    <price >45.50</price>
+  </book>
+
+  <book id="b103">
+    <title>Web Technologies</title>
+    <author>David Lee</author>
+    <price >29.90</price>
+  </book>
+</catalogue>
